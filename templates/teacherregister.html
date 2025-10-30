@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teacher Registration</title>
+  <style>
+    :root {
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --accent:#4f46e5;
+      --muted:#6b7280;
+      --success:#10b981;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#eef2ff 60%);
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:32px;
+      color:#111827;
+    }
+    .wrapper {
+      width:100%;
+      max-width:500px;
+      margin:auto;
+    }
+    .card {
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 6px 18px rgba(16,24,40,0.06);
+      padding:24px;
+    }
+    h2 {
+      text-align:center;
+      margin-bottom:20px;
+      color:var(--accent);
+    }
+    .field {
+      margin-bottom:16px;
+    }
+    label {
+      display:block;
+      font-size:13px;
+      margin-bottom:6px;
+      color:var(--muted);
+    }
+    input[type="text"],
+    input[type="password"] {
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #e6e9ef;
+      font-size:14px;
+      outline:none;
+    }
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      box-shadow:0 0 0 4px rgba(99,102,241,0.08);
+      border-color:rgba(79,70,229,0.6);
+    }
+    .form-check {
+      margin-top:6px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .btn {
+      display:inline-block;
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:0;
+      font-weight:700;
+      cursor:pointer;
+      background:var(--accent);
+      color:white;
+      margin-top:12px;
+      font-size:14px;
+    }
+    .small {
+      font-size:13px;
+      color:var(--muted);
+      text-align:center;
+      margin-top:12px;
+    }
+    .small a {
+      color:var(--accent);
+      text-decoration:none;
+    }
+    .small a:hover {
+      text-decoration:underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h2>Teacher Registration</h2>
+      <form method="POST" action="{{ url_for('teacher_register') }}">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input type="text" name="name" id="name" required>
+        </div>
+        <div class="field">
+          <label for="username">Username / Email</label>
+          <input type="text" name="username" id="username" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" name="password" id="password" required>
+          <div class="form-check">
+            <input type="checkbox" onclick="togglePassword()"> Show Password
+          </div>
+        </div>
+        <button class="btn" type="submit">Register</button>
+        <p class="small">Already have an account? <a href="{{ url_for('teacher_login') }}">Login here</a></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      var pwd = document.getElementById("password");
+      pwd.type = (pwd.type === "password") ? "text" : "password";
+    }
+  </script>
+</body>
+</html>

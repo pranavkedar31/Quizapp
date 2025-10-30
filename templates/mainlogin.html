@@ -1,0 +1,223 @@
+{% comment %} <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Quiz Application — Login</title>
+  <style>
+    :root{
+      --bg:#f4f7fb;
+      --card:#ffffff;
+      --accent:#4f46e5; /* indigo */
+      --muted:#6b7280;
+      --success:#10b981;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,var(--bg),#eef2ff 60%);
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:32px;
+      color:#111827;
+    }
+    .wrapper{
+      width:100%;
+      max-width:920px;
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:28px;
+      align-items:center;
+    }
+    @media (max-width:900px){
+      .wrapper{grid-template-columns:1fr; padding:12px}
+    }
+    .intro{
+      background:transparent;
+      padding:36px;
+      border-radius:12px;
+    }
+    .logo{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-weight:700;
+      color:var(--accent);
+      font-size:20px;
+    }
+    .hero{
+      margin-top:20px;
+    }
+    .hero h1{font-size:28px;margin:0 0 12px}
+    .hero p{margin:0;color:var(--muted)}
+    .card{
+      background:var(--card);
+      border-radius:12px;
+      box-shadow:0 6px 18px rgba(16,24,40,0.06);
+      padding:20px;
+    }
+    .tabs{
+      display:flex;
+      border-radius:8px;
+      overflow:hidden;
+      background:#f3f4f6;
+      margin-bottom:16px;
+    }
+    .tab{
+      flex:1;
+      padding:12px 14px;
+      text-align:center;
+      cursor:pointer;
+      font-weight:600;
+      color:var(--muted);
+      border:0;
+      user-select:none;
+    }
+    .tab.active{
+      background:linear-gradient(180deg, rgba(79,70,229,0.12), rgba(99,102,241,0.06));
+      color:var(--accent);
+    }
+    form{display:block}
+    .field{margin-bottom:12px}
+    label{display:block;font-size:13px;margin-bottom:6px;color:var(--muted)}
+    input[type="text"], input[type="email"], input[type="password"]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:1px solid #e6e9ef;
+      font-size:14px;
+      outline:none;
+    }
+    input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus{
+      box-shadow:0 0 0 4px rgba(99,102,241,0.08);
+      border-color:rgba(79,70,229,0.6);
+    }
+    .row{display:flex;gap:10px;align-items:center}
+    .remember{font-size:13px;color:var(--muted)}
+    .forgot{margin-left:auto;font-size:13px;color:var(--accent);text-decoration:none}
+    .btn{
+      display:inline-block;
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;
+      border:0;
+      font-weight:700;
+      cursor:pointer;
+      background:var(--accent);
+      color:white;
+      margin-top:6px;
+    }
+    .secondary{
+      background:transparent;
+      border:1px solid #e6e9ef;
+      color:var(--muted);
+    }
+    .small{font-size:13px;color:var(--muted);text-align:center;margin-top:12px}
+    .divider{height:1px;background:#f1f5f9;margin:14px 0;border-radius:2px}
+    .note{font-size:13px;color:var(--muted);}
+    .brand-mark{
+      width:46px;height:46px;border-radius:10px;display:inline-grid;place-items:center;background:linear-gradient(135deg,var(--accent),#06b6d4);color:#fff;font-weight:800;font-size:18px
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="intro">
+      <div class="logo"><span class="brand-mark">Q</span> QuizApplication</div>
+      <div class="hero">
+        <h1>Welcome back — sign in to continue</h1>
+        <p>Choose your role and login to access your dashboard. Teachers can create quizzes and manage students; students can take quizzes and view results.</p>
+        <div style="margin-top:22px" class="card">
+          <h3 style="margin:0 0 8px">Why QuizApplication?</h3>
+          <ul style="margin:0;padding-left:20px;color:var(--muted)">
+            <li>Fast quiz creation and auto-grading for teachers</li>
+            <li>Timed quizzes, progress tracking, and result history for students</li>
+            <li>Secure logins for both roles</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="tabs" role="tablist">
+        <div class="tab active" data-role="teacher">Teacher</div>
+        <div class="tab" data-role="student">Student</div>
+      </div>
+
+      <!-- Teacher Login -->
+      <div id="teacher-form">
+        <form action="{{ url_for('teacher_login') }}" method="post" autocomplete="on">
+          <div class="field">
+            <label for="t_email">Email</label>
+            <input id="t_email" name="email" type="email" placeholder="teacher@school.edu" required />
+          </div>
+          <div class="field">
+            <label for="t_pass">Password</label>
+            <input id="t_pass" name="password" type="password" placeholder="••••••••" required />
+          </div>
+          <div class="row">
+            <label class="remember"><input type="checkbox" name="remember"> Remember me</label>
+            <a class="forgot" href="#">Forgot?</a>
+          </div>
+          <button class="btn" type="submit">Login as Teacher</button>
+          <div class="divider"></div>
+          <div class="small">Don't have an account? <a href="{{ url_for('teacher_register') }}">Register as Teacher</a></div>
+        </form>
+      </div>
+
+      <!-- Student Login -->
+      <div id="student-form" style="display:none">
+        <form action="{{ url_for('student_login') }}" method="post" autocomplete="on">
+          <div class="field">
+            <label for="s_roll">Roll Number / Username</label>
+            <input id="s_roll" name="username" type="text" placeholder="e.g. 18CS101" required />
+          </div>
+          <div class="field">
+            <label for="s_pass">Password</label>
+            <input id="s_pass" name="password" type="password" placeholder="Your password" required />
+          </div>
+          <div class="row">
+            <label class="remember"><input type="checkbox" name="remember"> Keep me signed in</label>
+            <a class="forgot" href="#">Forgot?</a>
+          </div>
+          <button class="btn" type="submit">Login as Student</button>
+          <div class="divider"></div>
+          <div class="small">New here? <a href="{{ url_for('student_register') }}">Register as Student</a></div>
+        </form>
+      </div>
+
+      <p style="margin-top:12px" class="note">Tip: You can switch between Teacher and Student from the tabs above.</p>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const teacherForm = document.getElementById('teacher-form');
+    const studentForm = document.getElementById('student-form');
+
+    tabs.forEach(t => t.addEventListener('click', () => {
+      tabs.forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      const role = t.getAttribute('data-role');
+      if(role === 'teacher'){
+        teacherForm.style.display = '';
+        studentForm.style.display = 'none';
+      } else {
+        teacherForm.style.display = 'none';
+        studentForm.style.display = '';
+      }
+    }));
+
+    document.querySelectorAll('input').forEach(inp => {
+      inp.addEventListener('keydown', (e)=>{
+        if(e.key === 'Enter'){
+          const visibleForm = document.querySelector('#teacher-form form:not([style*="display:none"])') || document.querySelector('#student-form form:not([style*="display:none"])');
+          if(visibleForm) visibleForm.requestSubmit();
+        }
+      });
+    });
+  </script>
+</body>
+</html> {% endcomment %}

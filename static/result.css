@@ -1,0 +1,15 @@
+body {
+    background-color: #f8f9fa; /* Light background color */
+}
+
+.card {
+    border-radius: 10px; /* Rounded corners for the card */
+}
+
+.card-header {
+    font-weight: bold; /* Bold text for the header */
+}
+
+.progress {
+    height: 20px; /* Height of the progress bar */
+}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz App</title>
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        .question { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <h2>Simple Quiz</h2>
+    <form action="/submit" method="POST">
+        {% for q in quiz %}
+            <div class="question">
+                <p><strong>Q{{ loop.index }}: {{ q.question }}</strong></p>
+                {% for opt in q.options %}
+                    <label>
+                        <input type="radio" name="q{{ loop.index0 }}" value="{{ opt }}" required>
+                        {{ opt }}
+                    </label><br>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        <button type="submit">Submit Quiz</button>
+    </form>
+</body>
+</html>

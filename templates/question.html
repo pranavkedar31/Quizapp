@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ quiz['title'] }}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css">
+    <style>
+        body {
+    background-color: #f8f9fa; /* Light background color */
+}
+
+.card {
+    border-radius: 10px; /* Rounded corners for the card */
+}
+
+.card-title {
+    color: #007bff; /* Primary color for the question title */
+}
+</style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="card">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h3 class="mb-0">{{ quiz['title'] }}</h3>
+                <span><strong>Time Left:</strong> <span id="timer" class="badge bg-warning text-dark fs-5">{{ quiz['duration'] }}:00</span></span>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('submit_quiz', quiz_id=quiz['id']) }}" id="quizForm">
+                    {% for question in questions %}
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Question {{ loop.index }}: {{ question['question_text'] }}</h5>
+                            
+                            {% if question['question_type'] == 'mcq' %}
+                                {% for i in range(1, 5) %}
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="question_{{ question['id'] }}" id="q{{ question['id'] }}_{{ i }}" value="{{ i }}">
+                                    <label class="form-check-label" for="q{{ question['id'] }}_{{ i }}">{{ question['option' ~ i] }}</label>
+                                </div>
+                                {% endfor %}
+                            
+                            {% elif question['question_type'] == 'fill_blank' %}
+                                <input type="text" class="form-control mt-2" name="question_{{ question['id'] }}" placeholder="Type your answer here">
+                            {% elif question['question_type'] == 'true_false' %}
+    <div class="form-check mb-2">
+        <input class="form-check-input" type="radio" 
+               name="question_{{ question['id'] }}" 
+               id="q{{ question['id'] }}_true" 
+               value="True">
+        <label class="form-check-label" for="q{{ question['id'] }}_true">True</label>
+    </div>
+    <div class="form-check mb-2">
+        <input class="form-check-input" type="radio" 
+               name="question_{{ question['id'] }}" 
+               id="q{{ question['id'] }}_false" 
+               value="False">
+        <label class="form-check-label" for="q{{ question['id'] }}_false">False</label>
+    </div>
+{% endif %}
+
+                        </div>
+                    </div>
+                    {% endfor %}
+                    
+                    <button type="submit" class="btn btn-primary">Submit Quiz</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // JavaScript Countdown Timer
+    let duration = {{ quiz['duration'] }} * 60; // Convert minutes to seconds
+    let timerDisplay = document.getElementById('timer');
+    let quizForm = document.getElementById('quizForm');
+
+    let countdown = setInterval(function () {
+        let minutes = Math.floor(duration / 60);
+        let seconds = duration % 60;
+        timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        if (--duration < 0) {
+            clearInterval(countdown);
+            alert("Time is up! Submitting your quiz.");
+            quizForm.submit();
+        }
+    }, 1000);
+    </script>
+</body>
+</html>

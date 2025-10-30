@@ -1,0 +1,16 @@
+body {
+    background-color: #f2f2f2; /* Light background color */
+}
+
+.container {
+    max-width: 400px; /* Maximum width for the registration form */
+    margin: auto; /* Center the container */
+    background-color: white; /* White background for the form */
+    padding: 25px; /* Padding inside the container */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+h2 {
+    color: #007bff; /* Primary color for the heading */
+}

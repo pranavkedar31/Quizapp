@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+
+    h2 {
+        color: #343a40;
+    }
+
+    .quiz-card {
+        border-radius: 10px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .quiz-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 123, 255, 0.15);
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #007bff, #00c6ff);
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        padding: 15px;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-text {
+        color: #6c757d;
+    }
+
+    .btn-start {
+        background-color: #007bff;
+        color: white;
+        font-weight: bold;
+        border: none;
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-start:hover {
+        background-color: #0056b3;
+    }
+
+    .quiz-info {
+        font-size: 0.9rem;
+        color: #6c757d;
+        margin-top: 10px;
+    }
+
+    .quiz-icon {
+        margin-right: 6px;
+    }
+</style>
+
+<div class="container">
+    <h2 class="mb-4 text-center">📘 Available Quizzes</h2>
+    <div class="row">
+        {% for quiz in quizzes %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card quiz-card h-100">
+                <div class="card-header">
+                    {{ quiz['title'] }}
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <p class="card-text">{{ quiz['description'] }}</p>
+                    <div class="quiz-info">
+                        <p><span class="quiz-icon">⏱</span><strong>Duration:</strong> {{ quiz['duration'] }} minutes</p>
+                        <p><span class="quiz-icon">❓</span><strong>Questions:</strong> {{ quiz['total_questions'] }}</p>
+                    </div>
+                    <a href="{{ url_for('quiz', quiz_id=quiz['id']) }}" class="btn btn-start mt-auto">🚀 Start Quiz</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
